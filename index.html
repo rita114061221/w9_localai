@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高科技輔具設計與製作教學平台</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #64748b;
+    --success: #16a34a;
+    --warning: #eab308;
+    --danger: #dc2626;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 2.5rem 1rem 2rem;
+    text-align: center;
+    border-bottom: 5px solid var(--primary-dark);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+
+  header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 800; letter-spacing: 0.5px; }
+  header .subtitle { font-size: 1.05rem; opacity: 0.95; margin-bottom: 1rem; }
+  header .author { font-size: 1rem; opacity: 0.9; font-weight: 700; border: 1px solid rgba(255,255,255,0.4); padding: 0.4rem 1rem; border-radius: 30px; display: inline-block; margin-top: 0.5rem; }
+
+  /* Main Tabs */
+  .main-tabs-container {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 140px;
+    z-index: 90;
+    box-shadow: var(--shadow);
+  }
+
+  .main-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    gap: 0.3rem;
+    overflow-x: auto;
+  }
+
+  .main-tab-btn {
+    flex-shrink: 0;
+    padding: 0.95rem 1.35rem;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-bottom: 4px solid transparent;
+    transition: all 0.25s;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .main-tab-btn:hover { color: var(--primary); background: #f1f5f9; }
+  .main-tab-btn.active {
+    color: var(--primary);
+    border-bottom: 4px solid var(--primary);
+    background: #eff6ff;
+  }
+
+  /* Sub Tabs */
+  .sub-tabs-container {
+    background: #f1f5f9;
+    border-bottom: 1px solid var(--border);
+    display: none;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+  }
+
+  .sub-tabs-container.show { display: block; }
+
+  .sub-tabs {
+    display: flex;
+    gap: 0.3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .sub-tab-btn {
+    flex-shrink: 0;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .sub-tab-btn:hover { border-color: var(--primary); color: var(--primary); background: #eff6ff; }
+  .sub-tab-btn.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #dbeafe;
+  }
+
+  /* Main Content */
+  main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+
+  .unit { display: none; animation: fadeIn 0.4s ease; }
+  .unit.active { display: block; }
+  .sub-page { display: none; animation: fadeIn 0.35s ease; }
+  .sub-page.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    margin-bottom: 1.75rem;
+    box-shadow: var(--shadow);
+  }
+
+  .card h2 { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--primary); display: flex; align-items: center; gap: 0.75rem; }
+  .card h3 { font-size: 1.25rem; margin: 1.4rem 0 0.75rem; color: var(--text); border-left: 4px solid var(--primary); padding-left: 0.75rem; }
+  .card h4 { font-size: 1.05rem; margin: 1rem 0 0.5rem; color: var(--primary-dark); }
+  .card p { margin-bottom: 1rem; color: var(--text); }
+  .card ul { margin: 0.5rem 0 1rem 1.5rem; color: var(--text); }
+  .card ul li { margin-bottom: 0.5rem; }
+  .card ol { margin: 0.5rem 0 1rem 1.75rem; color: var(--text); }
+  .card ol li { margin-bottom: 0.6rem; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.3rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .btn-secondary { background: var(--secondary); color: #fff; }
+  .btn-secondary:hover { background: #475569; transform: translateY(-1px); }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { background: #15803d; transform: translateY(-1px); }
+  .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+  .btn-copy {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .btn-copy:hover { border-color: var(--primary); color: var(--primary); background: #eff6ff; }
+  .btn-copy.copied { background: #dcfce7; border-color: var(--success); color: var(--success); }
+
+  /* Code Blocks */
+  .code-wrap { position: relative; margin: 1rem 0; background: #1e293b; border-radius: 8px; overflow: hidden; border: 1px solid #334155; }
+  pre {
+    background: transparent;
+    color: #e2e8f0;
+    padding: 1.1rem 1.1rem 1.1rem 3rem;
+    border-radius: 0;
+    overflow-x: auto;
+    font-family: "Courier New", Consolas, monospace;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0;
+    position: relative;
+  }
+  pre::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 0; left: 0;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.9rem;
+    font-weight: 700;
+  }
+  code { font-family: inherit; }
+
+  /* Image Placeholders */
+  .img-box {
+    background: #f1f5f9;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 2rem 1rem;
+    text-align: center;
+    margin: 1rem 0;
+    color: var(--text-muted);
+    position: relative;
+  }
+  .img-box .label { font-weight: 700; color: var(--secondary); margin-bottom: 0.35rem; display: block; font-size: 0.95rem; }
+  .img-box .note { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+  .img-box.official { border-style: solid; border-color: var(--warning); background: #fef3c7; }
+  .img-box.official .badge {
+    position: absolute; top: -10px; left: 12px;
+    background: var(--warning); color: #7c2d12; font-size: 0.72rem;
+    padding: 0.15rem 0.55rem; border-radius: 4px; font-weight: 800;
+  }
+  .img-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+  /* Interactive */
+  .accordion { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; }
+  .accordion-item { border-bottom: 1px solid var(--border); }
+  .accordion-item:last-child { border-bottom: none; }
+  .accordion-header {
+    padding: 1rem 1.25rem; background: #f8fafc; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; color: var(--text);
+  }
+  .accordion-header:hover { background: #f1f5f9; }
+  .accordion-content { padding: 0 1.25rem; max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: var(--card); }
+  .accordion-content.open { padding: 1rem 1.25rem 1.25rem; max-height: 800px; }
+
+  .badge { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; }
+  .badge-unit { background: #e0e7ff; color: var(--primary); }
+  .badge-tech { background: #f0fdf4; color: var(--success); }
+  .badge-sub { background: #fffbeb; color: #92400e; }
+
+  /* Quiz */
+  .quiz { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem; }
+  .quiz-question { font-weight: 700; margin-bottom: 1rem; font-size: 1.1rem; }
+  .options label { display: block; padding: 0.8rem 1rem; margin-bottom: 0.5rem; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: 0.2s; }
+  .options label:hover { border-color: var(--primary); background: #f8fafc; }
+  .options input { margin-right: 0.75rem; }
+  .feedback { margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; font-weight: 600; }
+  .feedback.correct { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .feedback.wrong { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+  /* Progress */
+  .progress-container { background: var(--card); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--border); }
+  .progress-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
+  .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  th, td { padding: 0.85rem; border: 1px solid var(--border); text-align: left; }
+  th { background: #f1f5f9; font-weight: 700; color: var(--text); }
+
+  /* Step */
+  .step { display: flex; gap: 1rem; margin-bottom: 1.25rem; }
+  .step-num { flex-shrink: 0; width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; }
+  .step-content { flex: 1; }
+
+  /* Highlight */
+  .highlight { background: #fef3c7; padding: 0.15rem 0.4rem; border-radius: 4px; color: #92400e; }
+
+  /* Footer */
+  footer { background: var(--card); border-top: 1px solid var(--border); padding: 2rem 1rem; margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    header h1 { font-size: 1.4rem; }
+    .main-tabs { gap: 0.2rem; }
+    .main-tab-btn { padding: 0.85rem 0.95rem; font-size: 0.85rem; }
+    .sub-tab-btn { padding: 0.55rem 0.8rem; font-size: 0.8rem; }
+    main { padding: 1.25rem 0.75rem; }
+    .card { padding: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#127968; 高科技輔具設計與製作教學平台</h1>
+  <div class="subtitle">推廣輔助科技教育 &#8226; 從認識輔具到動手實作，完整學習路徑</div>
+  <div class="author">國立清華大學電機系 &#8226; 江宜庭</div>
+</header>
+
+<div class="main-tabs-container">
+  <div class="main-tabs">
+    <button class="main-tab-btn active" onclick="showMain('home', this)" data-main="home"><span>&#127968;</span>首頁</button>
+    <button class="main-tab-btn" onclick="showMain('unit01', this)" data-main="unit01"><span>01</span> 認識輔助科技</button>
+    <button class="main-tab-btn" onclick="showMain('unit02', this)" data-main="unit02"><span>02</span> 科技原理教室</button>
+    <button class="main-tab-btn" onclick="showMain('unit03', this)" data-main="unit03"><span>03</span> 輔具設計工作坊</button>
+    <button class="main-tab-btn" onclick="showMain('unit04', this)" data-main="unit04"><span>04</span> 動手做輔具</button>
+    <button class="main-tab-btn" onclick="showMain('prompt', this)" data-main="prompt"><span>&#128221;</span> 教學版本 Prompt</button>
+  </div>
+</div>
+
+<main>
+  <!-- ============ HOME ============ -->
+  <section id="main-home" class="unit active">
+    <div class="card">
+      <h2>&#127968; 歡迎來到高科技輔具設計與製作教學平台</h2>
+      <p>本平台以推廣輔助科技教育為核心，透過淺顯易懂的圖文解說、控制系統分析、設計圖展示與實作教學，帶領使用者認識高科技輔具的設計原理及製作過程。</p>
+      <p>網站內容涵蓋感測器應用、電子控制、機構設計及程式設計等技術，並透過實際的輔具製作案例，讓使用者能夠從基礎知識逐步進入實作階段。</p>
+      <p>我們希望降低輔助科技的學習門檻，讓更多人有機會接觸輔具設計，培養創新思考與動手實作的能力，進一步探索科技改善生活的可能性。</p>
+    </div>
+
+    <div class="card">
+      <h2>&#128218; 四大學習單元</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem;">
+        <div style="background:#f1f5f9; border-radius:10px; padding:1.5rem; border:2px solid var(--border);">
+          <div class="badge badge-unit" style="font-size:0.8rem;">單元 01</div>
+          <h3 style="margin:0.7rem 0 0.4rem; color:var(--primary);">認識輔助科技</h3>
+          <p style="font-size:0.9rem; color:var(--text-muted);">輔具種類、用途、技術原理，輔具如何改善生活與實際案例。</p>
+        </div>
+        <div style="background:#f1f5f9; border-radius:10px; padding:1.5rem; border:2px solid var(--border);">
+          <div class="badge badge-unit" style="font-size:0.8rem;">單元 02</div>
+          <h3 style="margin:0.7rem 0 0.4rem; color:var(--primary);">科技原理教室</h3>
+          <p style="font-size:0.9rem; color:var(--text-muted);">感測器、Arduino、馬達、控制系統與基礎程式設計。</p>
+        </div>
+        <div style="background:#f1f5f9; border-radius:10px; padding:1.5rem; border:2px solid var(--border);">
+          <div class="badge badge-unit" style="font-size:0.8rem;">單元 03</div>
+          <h3 style="margin:0.7rem 0 0.4rem; color:var(--primary);">輔具設計工作坊</h3>
+          <p style="font-size:0.9rem; color:var(--text-muted);">機構設計、3D 模型、電路接線圖、材料清單與製作教學。</p>
+        </div>
+        <div style="background:#f1f5f9; border-radius:10px; padding:1.5rem; border:2px solid var(--border);">
+          <div class="badge badge-unit" style="font-size:0.8rem;">單元 04</div>
+          <h3 style="margin:0.7rem 0 0.4rem; color:var(--primary);">動手做輔具</h3>
+          <p style="font-size:0.9rem; color:var(--text-muted);">完整專題從概念、製作到測試，例如智慧手杖、輔助機械手。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-header"><span>學習進度</span><span id="progress-text">0%</span></div>
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+    </div>
+
+    <div class="card">
+      <h2>&#128640; 如何使用本平台</h2>
+      <ol>
+        <li>點選上方主分頁籤進入對應單元。</li>
+        <li>單元頁面下方會出現子分頁籤，點選可切換子主題。</li>
+        <li>每個子頁面包含原理解說、圖示、程式碼與互動測驗。</li>
+        <li>程式碼區塊右側有「複製」按鈕，可一鍵複製指令。</li>
+        <li>所有圖片皆內嵌於本檔，離線開啟亦可完整顯示。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ UNIT 01: 認識輔助科技 ============ -->
+  <section id="main-unit01" class="unit">
+    <div class="card">
+      <h2>01 &#8226; 認識輔助科技</h2>
+      <p>本單元介紹高科技輔具的種類、用途與技術原理，並說明輔具如何改善使用者生活，搭配實際案例分享。</p>
+    </div>
+
+    <div class="sub-tabs-container" id="sub-unit01" style="display:block;">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="showSub('u01','u01-1',this)" data-sub="u01-1">1.1 什麼是輔助科技</button>
+        <button class="sub-tab-btn" onclick="showSub('u01','u01-2',this)" data-sub="u01-2">1.2 高科技輔具種類與用途</button>
+        <button class="sub-tab-btn" onclick="showSub('u01','u01-3',this)" data-sub="u01-3">1.3 技術原理概述</button>
+        <button class="sub-tab-btn" onclick="showSub('u01','u01-4',this)" data-sub="u01-4">1.4 輔具改善生活與實際案例</button>
+      </div>
+    </div>
+
+    <!-- u01-1 -->
+    <div id="sub-u01-1" class="sub-page active">
+      <div class="card">
+        <h3>&#128218; 什麼是輔助科技（Assistive Technology, AT）</h3>
+        <p>輔助科技是指任何用來維持、增加或改善殘障者或高齡者功能的裝置、設備、軟體或系統。高科技輔具通常包含電子元件、感測器與程式控制，能夠提供更精準、更即時的協助。</p>
+        <div class="accordion">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAcc(this)">輔具與一般工具的差異 &#9654;</div>
+            <div class="accordion-content">
+              <p>一般工具是供大眾使用，而輔具是針對特定身體功能限制所設計，目的是協助使用者完成日常生活活動（ADL），例如行動、進食、穿衣、溝通等。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- u01-2 -->
+    <div id="sub-u01-2" class="sub-page">
+      <div class="card">
+        <h3>&#128213; 高科技輔具種類與用途</h3>
+        <table>
+          <thead><tr><th style="width:22%;">輔具類別</th><th>常見範例</th><th style="width:30%;">主要用途</th></tr></thead>
+          <tbody>
+            <tr><td><strong>行動輔具</strong></td><td>智慧手杖、電動輪椅、外骨骼</td><td>協助行走、移動與平衡</td></tr>
+            <tr><td><strong>協助握持輔具</strong></td><td>電動夾持器、自助餐具</td><td>協助抓握物品與進食</td></tr>
+            <tr><td><strong>溝通輔具</strong></td><td>視線輸入板、語音合成器</td><td>協助無法說話者表達意願</td></tr>
+            <tr><td><strong>感官輔具</strong></td><td>助聽器、電子放大鏡、盲文顯示器</td><td>補償視聽障礙</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- u01-3 -->
+    <div id="sub-u01-3" class="sub-page">
+      <div class="card">
+        <h3>&#128208; 技術原理概述</h3>
+        <p>高科技輔具通常由四大模組組成：</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <div style="flex:1; min-width:180px; background:#f1f5f9; border-radius:8px; padding:1rem; border:1px solid var(--border);">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">&#128197;</div>
+            <div style="font-weight:700; color:var(--primary);">感測模組</div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.4rem;">偵測環境與使用者訊號（按鈕、肌電、光線、距離等）。</p>
+          </div>
+          <div style="flex:1; min-width:180px; background:#f1f5f9; border-radius:8px; padding:1rem; border:1px solid var(--border);">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">&#128270;</div>
+            <div style="font-weight:700; color:var(--primary);">控制模組</div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.4rem;">處理輸入訊號並做出決策（Arduino、ESP32 等微控制器）。</p>
+          </div>
+          <div style="flex:1; min-width:180px; background:#f1f5f9; border-radius:8px; padding:1rem; border:1px solid var(--border);">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">&#128272;</div>
+            <div style="font-weight:700; color:var(--primary);">驅動模組</div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.4rem;">執行物理動作（馬達、伺服器、電磁閥等）。</p>
+          </div>
+          <div style="flex:1; min-width:180px; background:#f1f5f9; border-radius:8px; padding:1rem; border:1px solid var(--border);">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">&#128187;</div>
+            <div style="font-weight:700; color:var(--primary);">能源模組</div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.4rem;">提供電力供應（電池、電源管理電路）。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- u01-4 -->
+    <div id="sub-u01-4" class="sub-page">
+      <div class="card">
+        <h3>&#128172; 輔具如何改善生活</h3>
+        <p>透過科技輔具，使用者可以重新獲得獨立生活的能力，減少對他人的依賴，提升生活品質與自尊心。</p>
+        <div class="img-box official">
+          <span class="badge">官方文件</span>
+          <span class="label">&#128421; 請插入本機軟體實際畫面截圖（例如輔具使用情境照片）</span>
+          <svg width="520" height="280" viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <rect x="30" y="40" width="460" height="200" rx="10" fill="#e2e8f0" stroke="#94a3b8"/>
+            <circle cx="260" cy="140" r="60" fill="#cbd5e1" stroke="#475569" stroke-width="2"/>
+            <rect x="220" y="200" width="80" height="50" rx="6" fill="#64748b"/>
+            <text x="260" y="150" text-anchor="middle" font-size="14" fill="#64748b">使用者</text>
+            <text x="260" y="228" text-anchor="middle" font-size="12" fill="#64748b">輔具裝置</text>
+            <text x="260" y="260" text-anchor="middle" font-size="12" fill="#94a3b8">場景示意圖（請替換為實際照片）</text>
+          </svg>
+          <span class="note">&#128204; 標示「官方文件」的圖片僅供示意，請替換為您實際拍攝的場景照片。</span>
+        </div>
+      </div>
+      <div class="quiz">
+        <div class="quiz-question">Q1. 下列何者不屬於高科技輔具的常見類別？</div>
+        <div class="options">
+          <label><input type="radio" name="u01q1" value="a"> 行動輔具</label>
+          <label><input type="radio" name="u01q1" value="b"> 溝通輔具</label>
+          <label><input type="radio" name="u01q1" value="c"> 娛樂遊戲主機</label>
+          <label><input type="radio" name="u01q1" value="d"> 感官輔具</label>
+        </div>
+        <div class="feedback correct" id="u01q1-correct">正解！遊戲主機主要用於娛樂，非輔助科技。</div>
+        <div class="feedback wrong" id="u01q1-wrong">不正確，請再檢查。</div>
+        <button class="btn btn-outline btn-success" style="margin-top:1rem;" onclick="checkQuiz('u01q1','c')">檢查答案</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UNIT 02: 科技原理教室 ============ -->
+  <section id="main-unit02" class="unit">
+    <div class="card">
+      <h2>02 &#8226; 科技原理教室</h2>
+      <p>本單元詳細教學感測器、Arduino 微控制器、馬達與致動器、控制系統分析以及基礎程式設計，適合初學者從頭開始學習。</p>
+    </div>
+
+    <div class="sub-tabs-container" id="sub-unit02">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="showSub('u02','u02-1',this)" data-sub="u02-1">2.1 感測器原理與應用</button>
+        <button class="sub-tab-btn" onclick="showSub('u02','u02-2',this)" data-sub="u02-2">2.2 Arduino 與微控制器</button>
+        <button class="sub-tab-btn" onclick="showSub('u02','u02-3',this)" data-sub="u02-3">2.3 馬達與致動器</button>
+        <button class="sub-tab-btn" onclick="showSub('u02','u02-4',this)" data-sub="u02-4">2.4 控制系統分析</button>
+        <button class="sub-tab-btn" onclick="showSub('u02','u02-5',this)" data-sub="u02-5">2.5 基礎程式設計</button>
+      </div>
+    </div>
+
+    <!-- 2.1 感測器 -->
+    <div id="sub-u02-1" class="sub-page active">
+      <div class="card">
+        <h3>&#128197; 常見感測器與工作原理</h3>
+        <p>感測器將物理量轉換為電訊號，讓微控制器能夠讀取環境或使用者狀態。</p>
+        <table>
+          <thead><tr><th style="width:20%;">感測器</th><th>偵測對象</th><th style="width:30%;">輸出訊號</th><th>輔具應用範例</th></tr></thead>
+          <tbody>
+            <tr><td>按鈕 / 開關</td><td>使用者按壓</td><td>數位 (0/1)</td><td>啟動/停止輔具動作</td></tr>
+            <tr><td>超音波感測器</td><td>前方距離</td><td>類比 / PWM</td><td>避障與距離警示</td></tr>
+            <tr><td>肌電感測器 (EMG)</td><td>肌肉收縮訊號</td><td>類比電壓</td><td>義肢控制、握持觸發</td></tr>
+            <tr><td>光敏電阻</td><td>環境光強度</td><td>類比電阻</td><td>自動開關燈光</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>&#128214; 讀取類比感測器範例</h3>
+        <div class="code-wrap">
+          <pre data-lang="Arduino">int sensorPin = A0;
+int sensorValue = 0;
+float voltage = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(sensorPin, INPUT);
+}
+
+void loop() {
+  sensorValue = analogRead(sensorPin);
+  voltage = sensorValue * (5.0 / 1023.0);
+  Serial.print("值=");
+  Serial.print(sensorValue);
+  Serial.print(" 電壓=");
+  Serial.println(voltage);
+  delay(200);
+}</pre>
+          <button class="btn-copy" onclick="copyCode(this,'int sensorPin = A0;\nint sensorValue = 0;\nfloat voltage = 0;\n\nvoid setup() {\n  Serial.begin(9600);\n  pinMode(sensorPin, INPUT);\n}\n\nvoid loop() {\n  sensorValue = analogRead(sensorPin);\n  voltage = sensorValue * (5.0 / 1023.0);\n  Serial.print(\"值=\");\n  Serial.print(sensorValue);\n  Serial.print(\" 電壓=\");\n  Serial.println(voltage);\n  delay(200);\n}')">複製</button>
+        </div>
+        <p><span class="highlight">原理說明：</span> Arduino Uno 的類比輸入為 10 位元，0~1023 對應 0~5V。公式：電壓 = 數值 × (5.0 / 1023.0)。</p>
+      </div>
+
+      <div class="img-box">
+        <span class="label">&#128421; 請插入本機軟體實際畫面（Arduino IDE 監視器顯示數值）</span>
+        <svg width="500" height="220" viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+          <rect x="20" y="20" width="460" height="180" rx="6" fill="#1e293b" stroke="#475569"/>
+          <text x="40" y="45" fill="#94a3b8" font-size="12">COM3 - 9600 baud</text>
+          <text x="40" y="75" fill="#22d3ee" font-size="14" font-family="monospace">值=512 電壓=2.50</text>
+          <text x="40" y="100" fill="#22d3ee" font-size="14" font-family="monospace">值=518 電壓=2.53</text>
+          <text x="40" y="125" fill="#22d3ee" font-size="14" font-family="monospace">值=525 電壓=2.57</text>
+          <text x="40" y="150" fill="#22d3ee" font-size="14" font-family="monospace">值=510 電壓=2.49</text>
+          <text x="40" y="175" fill="#22d3ee" font-size="14" font-family="monospace">值=522 電壓=2.55</text>
+        </svg>
+        <span class="note">&#128205; 請替換為您實際開啟 Arduino IDE 序列監視器的截圖。</span>
+      </div>
+    </div>
+
+    <!-- 2.2 Arduino -->
+    <div id="sub-u02-2" class="sub-page">
+      <div class="card">
+        <h3>&#128215; Arduino 與微控制器基礎</h3>
+        <p>Arduino 是開源電子原型平台，包含硬體開發板與 Arduino IDE 軟體。它是許多高科技輔具的控制核心。</p>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content"><h4>安裝 Arduino IDE</h4><p>從官方網站下載並安裝 Arduino IDE，支援 Windows、macOS 與 Linux。</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content"><h4>連接開發板</h4><p>使用 USB 線將 Arduino 連接電腦，在工具 &gt; 連接埠選擇對應的 COM 埠。</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content"><h4>選擇開發板型號</h4><p>在工具 &gt; 開發板選擇您使用的型號（例如 Arduino Uno / Nano / ESP32）。</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content"><h4>上傳程式</h4><p>撰寫程式碼後點選右上角「上傳」按鈕，將程式燒錄至開發板。</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>&#128214; 閃爍 LED 第一個程式</h3>
+        <div class="code-wrap">
+          <pre data-lang="Arduino">void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(1000);
+}</pre>
+          <button class="btn-copy" onclick="copyCode(this,'void setup() {\n  pinMode(LED_BUILTIN, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(LED_BUILTIN, HIGH);\n  delay(1000);\n  digitalWrite(LED_BUILTIN, LOW);\n  delay(1000);\n}')">複製</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.3 馬達 -->
+    <div id="sub-u02-3" class="sub-page">
+      <div class="card">
+        <h3>&#128272; 馬達與致動器類型</h3>
+        <table>
+          <thead><tr><th style="width:22%;">致動器</th><th>特性</th><th style="width:30%;">控制方式</th><th>輔具應用</th></tr></thead>
+          <tbody>
+            <tr><td>直流馬達</td><td>連續旋轉，轉速快</td><td>PWM 調速，H 橋反轉</td><td>輪椅驅動、傳送帶</td></tr>
+            <tr><td>伺服馬達</td><td>可控制轉角 (0~180°)</td><td>PWM 訊號控制位置</td><td>義手手指、輔具關節</td></tr>
+            <tr><td>步進馬達</td><td>可精確控制轉位</td><td>脈衝訊號逐步轉動</td><td>3D 列印機、精確定位</td></tr>
+            <tr><td>電磁閥 / 線性致動器</td><td>直線推拉運動</td><td>通電/斷電控制</td><td>輔助起床、推桿機構</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>&#128214; 伺服馬達控制範例</h3>
+        <div class="code-wrap">
+          <pre data-lang="Arduino">#include <Servo.h>
+Servo myServo;
+
+void setup() {
+  myServo.attach(9);  // 連接至 D9 腳位
+  myServo.write(0);   // 初始角度 0 度
+}
+
+void loop() {
+  myServo.write(90);  // 轉到 90 度
+  delay(1000);
+  myServo.write(0);   // 回到 0 度
+  delay(1000);
+}</pre>
+          <button class="btn-copy" onclick="copyCode(this,'#include \u003cServo.h\u003e\nServo myServo;\n\nvoid setup() {\n  myServo.attach(9);\n  myServo.write(0);\n}\n\nvoid loop() {\n  myServo.write(90);\n  delay(1000);\n  myServo.write(0);\n  delay(1000);\n}')">複製</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.4 控制系統 -->
+    <div id="sub-u02-4" class="sub-page">
+      <div class="card">
+        <h3>&#128209; 控制系統方塊圖分析</h3>
+        <p>開迴路控制：輸入直接對應輸出，不回饋狀態。閉迴路控制：透過感測器回饋，根據誤差修正輸出，較為穩定。</p>
+        <div class="img-box official">
+          <span class="badge">官方文件</span>
+          <span class="label">&#128421; 請插入本機軟體繪製的控制系統方塊圖截圖</span>
+          <svg width="520" height="260" viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <rect x="40" y="80" width="130" height="60" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+            <text x="105" y="112" text-anchor="middle" font-size="13" fill="#1e40af">參考輸入</text>
+            <rect x="190" y="50" width="140" height="80" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+            <text x="260" y="88" text-anchor="middle" font-size="13" fill="#1e40af">控制器 (MCU)</text>
+            <rect x="350" y="50" width="130" height="80" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+            <text x="415" y="88" text-anchor="middle" font-size="13" fill="#1e40af">執行器 / 輔具</text>
+            <rect x="260" y="160" width="120" height="50" rx="6" fill="#f1f5f9" stroke="#64748b"/>
+            <text x="320" y="188" text-anchor="middle" font-size="13" fill="#475569">感測器回饋</text>
+            <line x1="170" y1="110" x2="190" y2="90" stroke="#2563eb" stroke-width="3" marker-end="url(#ar)"/>
+            <line x1="330" y1="90" x2="350" y2="90" stroke="#2563eb" stroke-width="3" marker-end="url(#ar)"/>
+            <line x1="415" y1="130" x2="415" y2="185" stroke="#2563eb" stroke-width="2"/>
+            <line x1="415" y1="185" x2="320" y2="185" stroke="#2563eb" stroke-width="2" marker-end="url(#ar)"/>
+            <defs><marker id="ar" markerWidth="9" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="0 0, 9 3, 0 6" fill="#2563eb"/></marker></defs>
+          </svg>
+          <span class="note">&#128204; 標示「官方文件」僅供示意，請替換為您自行繪製的控制系統圖。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.5 程式設計 -->
+    <div id="sub-u02-5" class="sub-page">
+      <div class="card">
+        <h3>&#128187; 基礎程式設計概念</h3>
+        <ul>
+          <li><strong>變數：</strong>儲存感測器數值或系統狀態。</li>
+          <li><strong>條件判斷 (if)：</strong>根據感測值決定輔具動作。</li>
+          <li><strong>迴圈 (for/while)：</strong>重複執行動作或持續偵測。</li>
+          <li><strong>函數：</strong>將常用程式封裝，方便重複呼叫。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>&#128214; 感測器觸發馬達範例</h3>
+        <div class="code-wrap">
+          <pre data-lang="Arduino">int sensorPin = A0;
+int servoPin = 9;
+int threshold = 500;
+
+#include <Servo.h>
+Servo myServo;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(sensorPin, INPUT);
+  myServo.attach(servoPin);
+  myServo.write(0);
+}
+
+void loop() {
+  int value = analogRead(sensorPin);
+  Serial.println(value);
+
+  if (value &gt; threshold) {
+    myServo.write(90);   // 輔具啟動
+  } else {
+    myServo.write(0);    // 輔具停止
+  }
+  delay(100);
+}</pre>
+          <button class="btn-copy" onclick="copyCode(this,'int sensorPin = A0;\nint servoPin = 9;\nint threshold = 500;\n\n#include \u003cServo.h\u003e\nServo myServo;\n\nvoid setup() {\n  Serial.begin(9600);\n  pinMode(sensorPin, INPUT);\n  myServo.attach(servoPin);\n  myServo.write(0);\n}\n\nvoid loop() {\n  int value = analogRead(sensorPin);\n  Serial.println(value);\n\n  if (value &gt; threshold) {\n    myServo.write(90);\n  } else {\n    myServo.write(0);\n  }\n  delay(100);\n}')">複製</button>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-question">Q2. analogRead() 在 Arduino Uno 上回傳的數值範圍是？</div>
+        <div class="options">
+          <label><input type="radio" name="u02q2" value="a"> 0 ~ 255</label>
+          <label><input type="radio" name="u02q2" value="b"> 0 ~ 1023</label>
+          <label><input type="radio" name="u02q2" value="c"> 0 ~ 4095</label>
+          <label><input type="radio" name="u02q2" value="d"> 0 ~ 65535</label>
+        </div>
+        <div class="feedback correct" id="u02q2-correct">正解！Arduino Uno 類比輸入為 10 位元，範圍 0~1023。</div>
+        <div class="feedback wrong" id="u02q2-wrong">不正確，請再檢查。</div>
+        <button class="btn btn-outline btn-success" style="margin-top:1rem;" onclick="checkQuiz('u02q2','b')">檢查答案</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UNIT 03: 輔具設計工作坊 ============ -->
+  <section id="main-unit03" class="unit">
+    <div class="card">
+      <h2>03 &#8226; 輔具設計工作坊</h2>
+      <p>提供機構設計、3D 模型、電路接線圖、材料清單與製作教學，協助使用者將創意轉化為實體輔具。</p>
+    </div>
+
+    <div class="sub-tabs-container" id="sub-unit03">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="showSub('u03','u03-1',this)" data-sub="u03-1">3.1 機構設計基礎</button>
+        <button class="sub-tab-btn" onclick="showSub('u03','u03-2',this)" data-sub="u03-2">3.2 3D 模型與列印</button>
+        <button class="sub-tab-btn" onclick="showSub('u03','u03-3',this)" data-sub="u03-3">3.3 電路接線圖</button>
+        <button class="sub-tab-btn" onclick="showSub('u03','u03-4',this)" data-sub="u03-4">3.4 材料清單與採購</button>
+        <button class="sub-tab-btn" onclick="showSub('u03','u03-5',this)" data-sub="u03-5">3.5 製作教學步驟</button>
+      </div>
+    </div>
+
+    <!-- 3.1 機構 -->
+    <div id="sub-u03-1" class="sub-page active">
+      <div class="card">
+        <h3>&#128221; 常見機構與應用</h3>
+        <table>
+          <thead><tr><th style="width:20%;">機構</th><th>原理說明</th><th style="width:30%;">輔具應用範例</th></tr></thead>
+          <tbody>
+            <tr><td>連桿機構</td><td>透過桿件轉換運動型式與方向</td><td>輔助手杖關節、義肢膝關節</td></tr>
+            <tr><td>齒輪機構</td><td>改變轉速與轉矩，傳遞動力</td><td>電動輪椅減速、握持器力道放大</td></tr>
+            <tr><td>凸輪機構</td><td>將旋轉運動轉為特定週期直線運動</td><td>自動給藥、定時開關</td></tr>
+            <tr><td>滑軌機構</td><td>提供直線導引與支撐</td><td>可調高度桌板、輔助起床架</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="img-box">
+        <span class="label">&#128421; 請插入本機軟體實際畫面（CAD 或機構設計圖截圖）</span>
+        <svg width="500" height="260" viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+          <rect x="30" y="40" width="440" height="180" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+          <circle cx="90" cy="130" r="25" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+          <circle cx="410" cy="130" r="25" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+          <path d="M 115 130 A 15 15 0 0 1 130 115 L 370 115 A 15 15 0 0 1 385 130 A 15 15 0 0 1 370 145 L 130 145 A 15 15 0 0 1 115 130 Z" fill="#94a3b8"/>
+          <text x="90" y="135" text-anchor="middle" font-size="12" fill="#475569">驅動輪</text>
+          <text x="410" y="135" text-anchor="middle" font-size="12" fill="#475569">從動輪</text>
+          <text x="250" y="240" text-anchor="middle" font-size="12" fill="#64748b">連桿機構示意圖（請替換為實際 CAD 圖）</text>
+        </svg>
+        <span class="note">&#128205; 請替換為您使用 Fusion 360、SolidWorks 或 TinkerCAD 繪製的實際機構截圖。</span>
+      </div>
+    </div>
+
+    <!-- 3.2 3D 列印 -->
+    <div id="sub-u03-2" class="sub-page">
+      <div class="card">
+        <h3>&#128355; 3D 模型與列印流程</h3>
+        <ol>
+          <li>繪製 3D 模型（TinkerCAD、Fusion 360、SolidWorks 等）。</li>
+          <li>匯出為 STL 檔案。</li>
+          <li>使用切片軟體（Cura、PrusaSlicer）產生 G-code。</li>
+          <li>將 G-code 傳輸至 3D 列印機進行列印。</li>
+          <li>移除支架、打磨與組裝。</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h4>推薦列印參數（PLA 材質）</h4>
+        <table>
+          <tr><th style="width:30%;">項目</th><th>建議數值</th></tr>
+          <tr><td>層高</td><td>0.2 mm</td></tr>
+          <tr><td>充填率</td><td>20% ~ 100%（依強度需求）</td></tr>
+          <tr><td>噴嘴溫度</td><td>190~220 °C</td></tr>
+          <tr><td>熱床溫度</td><td>50~60 °C</td></tr>
+          <tr><td>列印速度</td><td>50~60 mm/s</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3.3 電路 -->
+    <div id="sub-u03-3" class="sub-page">
+      <div class="card">
+        <h3>&#128270; 電路接線圖範例</h3>
+        <p>常見輔具電路：感測器連接類比腳位，伺服馬達連接 PWM 腳位與外部電源。</p>
+        <div class="img-box official">
+          <span class="badge">官方文件</span>
+          <span class="label">&#128421; 請插入本機軟體實際畫面（Fritzing / Tinkercad 電路圖截圖）</span>
+          <svg width="500" height="260" viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <rect x="30" y="40" width="440" height="180" rx="8" fill="#e2e8f0" stroke="#94a3b8"/>
+            <rect x="60" y="70" width="100" height="60" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+            <text x="110" y="102" text-anchor="middle" font-size="12" fill="#1e40af">Arduino</text>
+            <rect x="340" y="70" width="100" height="60" rx="4" fill="#f1f5f9" stroke="#64748b"/>
+            <text x="390" y="102" text-anchor="middle" font-size="12" fill="#475569">伺服馬達</text>
+            <line x1="160" y1="100" x2="210" y2="100" stroke="#64748b" stroke-width="3"/>
+            <line x1="210" y1="100" x2="260" y2="100" stroke="#64748b" stroke-width="3"/>
+            <line x1="260" y1="100" x2="340" y2="100" stroke="#64748b" stroke-width="3"/>
+            <text x="235" y="115" text-anchor="middle" font-size="11" fill="#94a3b8">訊號線 D9</text>
+            <line x1="110" y1="130" x2="110" y2="180" stroke="#dc2626" stroke-width="3"/>
+            <text x="115" y="195" font-size="11" fill="#dc2626">VCC</text>
+            <line x1="110" y1="130" x2="110" y2="180" stroke="#1e293b" stroke-width="3" opacity="0.5"/>
+            <text x="100" y="195" font-size="11" fill="#1e293b">GND</text>
+          </svg>
+          <span class="note">&#128204; 標示「官方文件」僅供示意，完成後請替換為您實際繪製的接線圖。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.4 材料 -->
+    <div id="sub-u03-4" class="sub-page">
+      <div class="card">
+        <h3>&#128204; 基礎材料清單範例</h3>
+        <table>
+          <thead><tr><th style="width:30%;">項目</th><th style="width:15%;">數量</th><th>備註</th></tr></thead>
+          <tbody>
+            <tr><td>Arduino Uno / Nano</td><td>1 片</td><td>控制核心</td></tr>
+            <tr><td>伺服馬達 SG90</td><td>2~4 顆</td><td>關節驅動</td></tr>
+            <tr><td>按鈕開關</td><td>2 個</td><td>使用者輸入</td></tr>
+            <tr><td>3D 列印結構件 (PLA)</td><td>1 組</td><td>機構框架</td></tr>
+            <tr><td>導線與麵包板</td><td>1 組</td><td>電路連接</td></tr>
+            <tr><td>電池盒 (5V / 7.4V)</td><td>1 組</td><td>供電</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3.5 製作 -->
+    <div id="sub-u03-5" class="sub-page">
+      <div class="card">
+        <h3>&#128187; 製作教學步驟總覽</h3>
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>需求分析</h4><p>確認使用者需求與輔具功能目標。</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>機構設計</h4><p>繪製設計圖並準備 3D 模型。</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>零件製作</h4><p>3D 列印結構件、準備電子零件。</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>電路接線</h4><td>依接線圖連接感測器、馬達與控制板。</td></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-content"><h4>程式上傳</h4><p>撰寫並上傳控制程式至 Arduino。</p></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-content"><h4>組裝與測試</h4><p>組裝所有零件並進行功能測試與優化。</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UNIT 04: 動手做輔具 ============ -->
+  <section id="main-unit04" class="unit">
+    <div class="card">
+      <h2>04 &#8226; 動手做輔具</h2>
+      <p>以完整專題帶領使用者從概念、製作到測試，包含智慧手杖與輔助機械手兩個實作案例。</p>
+    </div>
+
+    <div class="sub-tabs-container" id="sub-unit04">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="showSub('u04','u04-1',this)" data-sub="u04-1">4.1 專題概念規劃</button>
+        <button class="sub-tab-btn" onclick="showSub('u04','u04-2',this)" data-sub="u04-2">4.2 智慧手杖製作</button>
+        <button class="sub-tab-btn" onclick="showSub('u04','u04-3',this)" data-sub="u04-3">4.3 輔助機械手製作</button>
+        <button class="sub-tab-btn" onclick="showSub('u04','u04-4',this)" data-sub="u04-4">4.4 測試與優化</button>
+        <button class="sub-tab-btn" onclick="showSub('u04','u04-5',this)" data-sub="u04-5">4.5 作品展示與分享</button>
+      </div>
+    </div>
+
+    <!-- 4.1 規劃 -->
+    <div id="sub-u04-1" class="sub-page active">
+      <div class="card">
+        <h3>&#128203; 專題概念規劃流程</h3>
+        <ol>
+          <li>定義使用者與需求（例如視障者行動協助）。</li>
+          <li>列出功能需求（距離偵測、震動警示、照明）。</li>
+          <li>繪製初步設計圖與機構草圖。</li>
+          <li>評估所需零件與預算。</li>
+          <li>製作時間表與里程碑。</td>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>&#128197; 智慧手杖功能需求表</h3>
+        <table>
+          <thead><tr><th style="width:35%;">功能</th><th>所需感測器/元件</th><th style="width:35%;">預期效益</th></tr></thead>
+          <tbody>
+            <tr><td>前方障礙物偵測</td><td>超音波感測器</td><td>避免碰撞與跌落</td></tr>
+            <tr><td>夜間照明</td><td>LED 燈 + 光敏電阻</td><td>暗處可見路徑</td></tr>
+            <tr><td>緊急求救</td><td>按鈕 + 蜂鳴器</td><td>發出警示聲吸引注意</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4.2 智慧手杖 -->
+    <div id="sub-u04-2" class="sub-page">
+      <div class="card">
+        <h3>&#128213; 智慧手杖製作說明</h3>
+        <p>智慧手杖利用超音波感測器偵測前方障礙物，當距離過近時透過蜂鳴器與震動馬達提醒使用者。</p>
+        <div class="code-wrap">
+          <pre data-lang="Arduino">int trigPin = 7;
+int echoPin = 6;
+int buzzerPin = 8;
+int ledPin = 13;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  long duration = pulseIn(echoPin, HIGH);
+  float distance = duration * 0.034 / 2;
+
+  Serial.print("距離: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  if (distance &gt; 0 && distance &lt; 50) {
+    tone(buzzerPin, 1000);
+    digitalWrite(ledPin, HIGH);
+  } else {
+    noTone(buzzerPin);
+    digitalWrite(ledPin, LOW);
+  }
+  delay(200);
+}</pre>
+          <button class="btn-copy" onclick="copyCode(this,'int trigPin = 7;\nint echoPin = 6;\nint buzzerPin = 8;\nint ledPin = 13;\n\nvoid setup() {\n  Serial.begin(9600);\n  pinMode(trigPin, OUTPUT);\n  pinMode(echoPin, INPUT);\n  pinMode(buzzerPin, OUTPUT);\n  pinMode(ledPin, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(trigPin, LOW);\n  delayMicroseconds(2);\n  digitalWrite(trigPin, HIGH);\n  delayMicroseconds(10);\n  digitalWrite(trigPin, LOW);\n\n  long duration = pulseIn(echoPin, HIGH);\n  float distance = duration * 0.034 / 2;\n\n  Serial.print(\"距離: \");\n  Serial.print(distance);\n  Serial.println(\" cm\");\n\n  if (distance &gt; 0 && distance &lt; 50) {\n    tone(buzzerPin, 1000);\n    digitalWrite(ledPin, HIGH);\n  } else {\n    noTone(buzzerPin);\n    digitalWrite(ledPin, LOW);\n  }\n  delay(200);\n}')">複製</button>
+        </div>
+      </div>
+
+      <div class="img-box">
+        <span class="label">&#128421; 請插入本機軟體實際畫面（智慧手杖組裝照片）</span>
+        <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+          <rect x="30" y="40" width="440" height="220" rx="10" fill="#e2e8f0" stroke="#94a3b8"/>
+          <rect x="230" y="60" width="40" height="160" rx="4" fill="#94a3b8"/>
+          <rect x="245" y="200" width="10" height="40" rx="2" fill="#64748b"/>
+          <circle cx="250" y="280" r="20" fill="#475569"/>
+          <rect x="220" y="140" width="60" height="50" rx="6" fill="#f1f5f9" stroke="#64748b"/>
+          <text x="250" y="168" text-anchor="middle" font-size="12" fill="#64748b">控制盒</text>
+          <line x1="250" y1="190" x2="250" y2="200" stroke="#64748b" stroke-width="2"/>
+          <text x="250" y="290" text-anchor="middle" font-size="12" fill="#64748b">手杖底座</text>
+          <text x="250" y="320" text-anchor="middle" font-size="12" fill="#94a3b8">智慧手杖組裝示意圖（請替換為實際照片）</text>
+        </svg>
+        <span class="note">&#128205; 請替換為您實際組裝智慧手杖的照片。</span>
+      </div>
+    </div>
+
+    <!-- 4.3 機械手 -->
+    <div id="sub-u04-3" class="sub-page">
+      <div class="card">
+        <h3>&#128189; 輔助機械手製作說明</h3>
+        <p>輔助機械手透過伺服馬達控制手指彎曲與伸直，協助肌力不足者握持物品。</p>
+        <div class="code-wrap">
+          <pre data-lang="Arduino">#include <Servo.h>
+Servo thumbServo;
+Servo indexServo;
+int sensorPin = A0;
+int threshold = 600;
+
+void setup() {
+  Serial.begin(9600);
+  thumbServo.attach(9);
+  indexServo.attach(10);
+  pinMode(sensorPin, INPUT);
+  openHand();
+}
+
+void loop() {
+  int value = analogRead(sensorPin);
+  Serial.println(value);
+
+  if (value &gt; threshold) {
+    closeHand();  // 偵測到肌肉訊號，握持
+  } else {
+    openHand();   // 釋放
+  }
+  delay(150);
+}
+
+void openHand() {
+  thumbServo.write(0);
+  indexServo.write(0);
+}
+
+void closeHand() {
+  thumbServo.write(90);
+  indexServo.write(90);
+}</pre>
+          <button class="btn-copy" onclick="copyCode(this,'#include \u003cServo.h\u003e\nServo thumbServo;\nServo indexServo;\nint sensorPin = A0;\nint threshold = 600;\n\nvoid setup() {\n  Serial.begin(9600);\n  thumbServo.attach(9);\n  indexServo.attach(10);\n  pinMode(sensorPin, INPUT);\n  openHand();\n}\n\nvoid loop() {\n  int value = analogRead(sensorPin);\n  Serial.println(value);\n\n  if (value &gt; threshold) {\n    closeHand();\n  } else {\n    openHand();\n  }\n  delay(150);\n}\n\nvoid openHand() {\n  thumbServo.write(0);\n  indexServo.write(0);\n}\n\nvoid closeHand() {\n  thumbServo.write(90);\n  indexServo.write(90);\n}')">複製</button>
+        </div>
+      </div>
+
+      <div class="img-box official">
+        <span class="badge">官方文件</span>
+        <span class="label">&#128421; 請插入本機軟體實際畫面（機械手實作照片）</span>
+        <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+          <rect x="30" y="40" width="440" height="220" rx="10" fill="#f1f5f9" stroke="#94a3b8"/>
+          <path d="M 100 140 Q 120 100 140 140 T 180 140" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 100 180 Q 120 200 140 180 T 180 180" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+          <rect x="160" y="120" width="40" height="80" rx="4" fill="#cbd5e1" stroke="#475569"/>
+          <circle cx="180" cy="230" r="15" fill="#475569"/>
+          <text x="250" y="280" text-anchor="middle" font-size="12" fill="#64748b">輔助機械手示意圖（請替換為實際照片）</text>
+        </svg>
+        <span class="note">&#128204; 標示「官方文件」僅供示意，請替換為您實際製作的機械手照片。</span>
+      </div>
+    </div>
+
+    <!-- 4.4 測試 -->
+    <div id="sub-u04-4" class="sub-page">
+      <div class="card">
+        <h3>&#128212; 測試與優化檢查表</h3>
+        <ul>
+          <li>&#128269; 電源是否穩定，電壓是否符合所有元件需求？</li>
+          <li>&#128197; 感測器數值是否在預期範圍，是否需調整 threshold？</li>
+          <li>&#128272; 馬達轉角與運動範圍是否正確？</li>
+          <li>&#128171; 使用者操作是否直覺，是否有誤觸風險？</li>
+          <li>&#128214; 結構是否穩固，長期使用不會鬆脫？</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4.5 展示 -->
+    <div id="sub-u04-5" class="sub-page">
+      <div class="card">
+        <h3>&#128223; 作品展示與分享</h3>
+        <p>完成製作後，建議拍攝作品照片、錄製示範影片，並撰寫製作心得，與社群分享以獲得回饋與改進建議。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROMPT ============ -->
+  <section id="main-prompt" class="unit">
+    <div class="card">
+      <h2>&#128221; 教學版本：本教材製作 Prompt 說明</h2>
+      <p>以下是用來製作這份教學網頁的完整提示詞（Prompt），您可以參考並修改，以產出其他主題的教學平台。</p>
+    </div>
+
+    <div class="card">
+      <h3>&#128220; 完整 Prompt</h3>
+      <div class="code-wrap">
+        <pre data-lang="text">請製作一份繁體中文單一自包含 HTML 教學網頁，檔名為 index.html。
+
+主題：高科技輔具設計與製作教學平台
+首頁作者：國立清華大學電機系 江宜庭
+
+結構需求：
+1. 四大主要單元：
+   - 01 認識輔助科技：輔具種類、用途、技術原理、改善生活與實際案例
+   - 02 科技原理教室：感測器、Arduino、馬達、控制系統、基礎程式設計
+   - 03 輔具設計工作坊：機構設計、3D 模型、電路接線圖、材料清單、製作教學
+   - 04 動手做輔具：專題概念、智慧手杖、輔助機械手、測試優化、作品展示
+2. 每個主要單元下方設有子分頁籤，可切換子主題。
+3. 頂部主分頁籤可切換四大單元與首頁、教學版本 Prompt 頁面。
+4. 所有圖片必須內嵌於 HTML 中（SVG），離線也能顯示，不得引用任何外部圖片 URL。
+5. 每個程式碼區塊皆提供「複製」按鈕，可一鍵複製指令。
+6. 教學內容需有互動功能，例如互動測驗、摺疊式說明（Accordion）、學習進度條。
+7. 首頁顯示：國立清華大學電機系 江宜庭。
+8. 截圖優先使用本機軟體實際畫面；若無法拍攝，才使用官方文件截圖補充，並在圖上明確標示「官方文件」來源，不能混充。
+9. 內容要能讓新手從安裝一路做到跑通。
+10. 使用繁體中文，單一 HTML 檔案自包含。</pre>
+        <button class="btn-copy" onclick="copyPrompt()">複製整段 Prompt</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>&#128161; 使用建議</h3>
+      <ul>
+        <li>將上述 Prompt 輸入至 AI 模型（如 Gemma 4 26B、Qwen 3），即可生成類似結構的教學網頁。</li>
+        <li>請自行替換圖片區塊中的 SVG 範例，為您實際軟體與硬體的截圖。</li>
+        <li>若使用官方文件截圖，務必在圖片上方標示「官方文件」，避免誤導使用者。</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  &#169; 2024 國立清華大學電機系 江宜庭 &#8226; 高科技輔具設計與製作教學平台 &#8226; 單一自包含 HTML 教材
+</footer>
+
+<script>
+  // 主分頁切換
+  function showMain(mainId, btn) {
+    // 隱藏所有主單元
+    document.querySelectorAll('.unit').forEach(u => u.classList.remove('active'));
+    // 取消所有主標籤 active
+    document.querySelectorAll('.main-tab-btn').forEach(t => t.classList.remove('active'));
+    // 隱藏所有子分頁容器
+    document.querySelectorAll('.sub-tabs-container').forEach(c => c.style.display = 'none');
+    // 顯示選定單元
+    document.getElementById('main-' + mainId).classList.add('active');
+    // 啟用標籤
+    if (btn) btn.classList.add('active');
+
+    // 若是四大單元，顯示子分頁容器
+    if (mainId.startsWith('unit')) {
+      document.getElementById('sub-' + mainId).style.display = 'block';
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress(mainId);
+  }
+
+  // 子分頁切換
+  function showSub(unitKey, subId, btn) {
+    // 隱藏該單元下所有子頁面
+    document.querySelectorAll('#main-' + unitKey + ' .sub-page').forEach(p => p.classList.remove('active'));
+    // 取消該單元下所有子標籤 active
+    document.querySelectorAll('#sub-' + unitKey + ' .sub-tab-btn').forEach(t => t.classList.remove('active'));
+    // 顯示選定子頁面
+    document.getElementById('sub-' + subId).classList.add('active');
+    // 啟用標籤
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress(unitKey);
+  }
+
+  // 進度追蹤
+  const mainOrder = ['home', 'unit01', 'unit02', 'unit03', 'unit04', 'prompt'];
+  let visited = new Set(['home']);
+
+  function updateProgress(current) {
+    visited.add(current);
+    const pct = Math.round((visited.size / mainOrder.length) * 100);
+    const fill = document.getElementById('progress-fill');
+    const txt = document.getElementById('progress-text');
+    if (fill) fill.style.width = pct + '%';
+    if (txt) txt.textContent = pct + '%';
+  }
+
+  // Accordion 切換
+  function toggleAcc(header) {
+    const item = header.parentElement;
+    const content = item.querySelector('.accordion-content');
+    const isOpen = content.classList.contains('open');
+
+    // 關閉所有
+    document.querySelectorAll('.accordion-content').forEach(c => {
+      c.classList.remove('open');
+      c.style.maxHeight = '0';
+    });
+    document.querySelectorAll('.accordion-header').forEach(h => {
+      h.innerHTML = h.innerHTML.replace('&#9660;', '&#9654;');
+    });
+
+    if (!isOpen) {
+      content.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+      header.innerHTML = header.innerHTML.replace('&#9654;', '&#9660;');
+    }
+  }
+
+  // 複製程式碼
+  function copyCode(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.textContent;
+      btn.textContent = '已複製！';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1200);
+    });
+  }
+
+  // 複製 Prompt
+  function copyPrompt() {
+    const text = document.querySelector('#main-prompt pre').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Prompt 已複製到剪貼簿');
+    });
+  }
+
+  // 測驗檢查
+  function checkQuiz(qName, correctVal) {
+    const selected = document.querySelector('input[name="' + qName + '"]:checked');
+    const correctFeedback = document.getElementById(qName + '-correct');
+    const wrongFeedback = document.getElementById(qName + '-wrong');
+    correctFeedback.style.display = 'none';
+    wrongFeedback.style.display = 'none';
+    if (!selected) {
+      alert('請先選擇一個選項');
+      return;
+    }
+    if (selected.value === correctVal) {
+      correctFeedback.style.display = 'block';
+    } else {
+      wrongFeedback.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>
